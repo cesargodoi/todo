@@ -1,12 +1,24 @@
 import React, { useState } from 'react';
-import './App.css';
+import { nanoid } from 'nanoid';
 
 import Todo from './components/todo';
 import Form from './components/Form';
+import FilterButton from './components/FilterButton';
 
+const FILTER_NAMES = ['All', 'Active', 'Completed'];
 
 function App(props) {
+  const [filter, setFilter] = useState('All')
   const [tasks, setTasks] = useState(props.tasks)
+
+  const filterList = FILTER_NAMES.map(f => (
+    <FilterButton
+      key={f}
+      filter={f}
+      active={f === filter}
+      setFilter={setFilter}
+    />
+  ))
 
   const taskList = tasks.map(task => (
     <Todo
@@ -21,7 +33,7 @@ function App(props) {
   const countPlural = countTasks > 1 ? 'tasks' : 'task'
 
   function addTask(name) {
-    const newTask = { id: 'td', name, completed: false };
+    const newTask = { id: `td${nanoid()}`, name, completed: false };
     setTasks([...tasks, newTask]);
   }
 
@@ -32,15 +44,7 @@ function App(props) {
       <Form addTask={addTask} />
 
       <div className='nav nav-tabs justify-content-center mt-4'>
-        <li class="nav-item">
-          <button className="nav-link active" href="#">All tasks</button>
-        </li>
-        <li class="nav-item">
-          <button className="nav-link" href="#">Active tasks</button>
-        </li>
-        <li class="nav-item">
-          <button className="nav-link" href="#">Completed tasks</button>
-        </li>
+        {filterList}
       </div>
 
       <h2 id="list-heading" className='mt-4'>
