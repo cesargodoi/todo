@@ -10,6 +10,9 @@ function App(props) {
     <Todo id={task.id} name={task.name} completed={task.completed} />
   ))
 
+  const countTasks = tasks.length;
+  const countPlural = countTasks > 1 ? 'tasks' : 'task'
+
   return (
     <div className="container">
       <h1 className='text-center mt-4 mb-4'>ToDO</h1>
@@ -29,7 +32,7 @@ function App(props) {
       </div>
 
       <h2 id="list-heading" className='mt-4'>
-        3 tasks remaining
+        {`${countTasks} ${countPlural} remaining`}
       </h2>
 
       <ul aria-labelledby="list-heading" className='list-group list-group-flush mt-4'>
