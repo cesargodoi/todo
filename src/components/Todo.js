@@ -20,8 +20,14 @@ export default function Todo(props) {
   const templateToShow = (
     <li className='list-group-item d-flex flex-row'>
       <div className='flex-fill'>
-        <input id={props.id} type="checkbox" className='me-2' defaultChecked={props.completed} />
-        <label htmlFor={props.id}>
+        <input
+          id={props.id}
+          type="checkbox"
+          className='me-2'
+          defaultChecked={props.completed}
+          onClick={() => props.completeTask(props.id)}
+        />
+        <label htmlFor={props.id} class={props.completed ? 'del' : ''}>
           {props.name}
         </label>
       </div>

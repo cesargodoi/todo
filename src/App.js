@@ -5,6 +5,8 @@ import Todo from './components/Todo';
 import Form from './components/Form';
 import FilterButton from './components/FilterButton';
 
+import './App.css';
+
 const FILTER_NAMES = ['All', 'Active', 'Completed'];
 
 function App(props) {
@@ -26,6 +28,7 @@ function App(props) {
       key={task.id}
       name={task.name}
       completed={task.completed}
+      completeTask={completeTask}
       editTask={editTask}
       deleteTask={deleteTask}
     />
@@ -39,15 +42,26 @@ function App(props) {
     setTasks([...tasks, newTask]);
   }
 
+  function completeTask(id) {
+    const adjustedTasks = tasks.map(task => {
+      if (task.id === id) {
+        task.completed = !task.completed;
+        return task
+      }
+      return task
+    });
+    setTasks(adjustedTasks);
+  }
+
   function editTask(id, name) {
-    const editedTasks = tasks.map(task => {
+    const adjustedTasks = tasks.map(task => {
       if (task.id === id) {
         task.name = name;
-        return task
+        return task;
       }
       return task;
     });
-    setTasks(editedTasks)
+    setTasks(adjustedTasks);
   }
 
   function deleteTask(id) {
