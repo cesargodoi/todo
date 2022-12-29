@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { nanoid } from 'nanoid';
 
-import Todo from './components/todo';
+import Todo from './components/Todo';
 import Form from './components/Form';
 import FilterButton from './components/FilterButton';
 
@@ -27,6 +27,7 @@ function App(props) {
       name={task.name}
       completed={task.completed}
       editTask={editTask}
+      deleteTask={deleteTask}
     />
   ));
 
@@ -47,6 +48,11 @@ function App(props) {
       return task;
     });
     setTasks(editedTasks)
+  }
+
+  function deleteTask(id) {
+    const remainingTasks = tasks.filter(task => task.id !== id);
+    setTasks(remainingTasks)
   }
 
   return (

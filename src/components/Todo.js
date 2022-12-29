@@ -33,7 +33,11 @@ export default function Todo(props) {
         >
           <PencilFill />
         </button>
-        <button type="button" className='btn btn-sm btn-outline-danger'>
+        <button
+          type="button"
+          className='btn btn-sm btn-outline-danger'
+          onClick={() => props.deleteTask(props.id)}
+        >
           <TrashFill />
         </button>
       </div>
