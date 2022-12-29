@@ -1,12 +1,14 @@
 import React from 'react';
 import './App.css';
-import { PencilFill } from "react-bootstrap-icons";
-import { TrashFill } from "react-bootstrap-icons";
-import { XLg } from 'react-bootstrap-icons';
-import { CheckLg } from 'react-bootstrap-icons';
+
+import Todo from './components/todo';
 
 
-function App() {
+function App(props) {
+  const tasks = props.tasks.map((task) => (
+    <Todo id={task.id} name={task.name} completed={task.completed} />
+  ))
+
   return (
     <div className="container">
       <h1 className='text-center mt-4 mb-4'>ToDO</h1>
@@ -48,52 +50,9 @@ function App() {
       </h2>
 
       <ul aria-labelledby="list-heading" className='list-group list-group-flush mt-4'>
-        <li className='list-group-item d-flex flex-row'>
-          <div className='flex-fill'>
-            <input id="todo-0" type="checkbox" className='me-2' defaultChecked={true} />
-            <label htmlFor="todo-0">
-              Eat
-            </label>
-          </div>
-          <div>
-            <button type="button" className='btn btn-sm btn-outline-warning me-1'>
-              <PencilFill />
-            </button>
-            <button type="button" className='btn btn-sm btn-outline-danger'>
-              <TrashFill />
-            </button>
-          </div>
-        </li>
-        <li className='list-group-item d-flex flex-row'>
-          <div className='flex-fill'>
-            <input id="todo-0" type="checkbox" className='me-2' defaultChecked={false} />
-            <label htmlFor="todo-0">
-              Sleep
-            </label>
-          </div>
-          <div>
-            <button type="button" className='btn btn-sm btn-outline-warning me-1'>
-              <PencilFill />
-            </button>
-            <button type="button" className='btn btn-sm btn-outline-danger'>
-              <TrashFill />
-            </button>
-          </div>
-        </li>
-        <li className='list-group-item d-flex flex-row'>
-          <div className='flex-fill me-2'>
-            <input id="newName" type="text" className='form-control form-control-sm' />
-          </div>
-          <div>
-            <button type="button" className='btn btn-sm btn-outline-secondary me-1'>
-              <XLg />
-            </button>
-            <button type="button" className='btn btn-sm btn-outline-primary'>
-              <CheckLg />
-            </button>
-          </div>
-        </li>
+        {tasks}
       </ul>
+
     </div>
   );
 }
