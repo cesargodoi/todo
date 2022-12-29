@@ -26,6 +26,7 @@ function App(props) {
       key={task.id}
       name={task.name}
       completed={task.completed}
+      editTask={editTask}
     />
   ));
 
@@ -35,6 +36,17 @@ function App(props) {
   function addTask(name) {
     const newTask = { id: `td${nanoid()}`, name, completed: false };
     setTasks([...tasks, newTask]);
+  }
+
+  function editTask(id, name) {
+    const editedTasks = tasks.map(task => {
+      if (task.id === id) {
+        task.name = name;
+        return task
+      }
+      return task;
+    });
+    setTasks(editedTasks)
   }
 
   return (
