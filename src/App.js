@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 import Todo from './components/todo';
@@ -6,18 +6,30 @@ import Form from './components/Form';
 
 
 function App(props) {
-  const tasks = props.tasks.map((task) => (
-    <Todo id={task.id} name={task.name} completed={task.completed} />
-  ))
+  const [tasks, setTasks] = useState(props.tasks)
+
+  const taskList = tasks.map(task => (
+    <Todo
+      id={task.id}
+      key={task.id}
+      name={task.name}
+      completed={task.completed}
+    />
+  ));
 
   const countTasks = tasks.length;
   const countPlural = countTasks > 1 ? 'tasks' : 'task'
+
+  function addTask(name) {
+    const newTask = { id: 'td', name, completed: false };
+    setTasks([...tasks, newTask]);
+  }
 
   return (
     <div className="container">
       <h1 className='text-center mt-4 mb-4'>ToDO</h1>
 
-      <Form />
+      <Form addTask={addTask} />
 
       <div className='nav nav-tabs justify-content-center mt-4'>
         <li class="nav-item">
@@ -36,7 +48,7 @@ function App(props) {
       </h2>
 
       <ul aria-labelledby="list-heading" className='list-group list-group-flush mt-4'>
-        {tasks}
+        {taskList}
       </ul>
 
     </div>
