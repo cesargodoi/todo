@@ -7,7 +7,13 @@ import FilterButton from './components/FilterButton';
 
 import './App.css';
 
-const FILTER_NAMES = ['All', 'Active', 'Completed'];
+const FILTER_MAP = {
+  All: () => true,
+  Active: (task) => !task.completed,
+  Completed: (task) => task.completed
+}
+
+const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 function App(props) {
   const [filter, setFilter] = useState('All')
@@ -22,19 +28,21 @@ function App(props) {
     />
   ))
 
-  const taskList = tasks.map(task => (
-    <Todo
-      id={task.id}
-      key={task.id}
-      name={task.name}
-      completed={task.completed}
-      completeTask={completeTask}
-      editTask={editTask}
-      deleteTask={deleteTask}
-    />
-  ));
+  const taskList = tasks
+    .filter(FILTER_MAP[filter])
+    .map(task => (
+      <Todo
+        id={task.id}
+        key={task.id}
+        name={task.name}
+        completed={task.completed}
+        completeTask={completeTask}
+        editTask={editTask}
+        deleteTask={deleteTask}
+      />
+    ));
 
-  const countTasks = tasks.length;
+  const countTasks = taskList.length;
   const countPlural = countTasks > 1 ? 'tasks' : 'task'
 
   function addTask(name) {
