@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 
 import Todo from './components/todo';
+import Form from './components/Form';
 
 
 function App(props) {
@@ -13,25 +14,7 @@ function App(props) {
     <div className="container">
       <h1 className='text-center mt-4 mb-4'>ToDO</h1>
 
-      <form className="">
-        <div className='d-flex flex-row'>
-          <div className="flex-fill me-1">
-            <input
-              id="new-todo-input"
-              type="text"
-              className='form-control form-control-lg'
-              name="text"
-              autoComplete="off"
-              placeholder='What needs to be done?'
-            />
-          </div>
-          <div className="text-end">
-            <button type="submit" className='btn btn-lg btn-primary'>
-              New ToDO
-            </button>
-          </div>
-        </div>
-      </form>
+      <Form />
 
       <div className='nav nav-tabs justify-content-center mt-4'>
         <li class="nav-item">
