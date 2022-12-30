@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { nanoid } from 'nanoid';
 
 import Todo from './components/Todo';
@@ -6,6 +6,7 @@ import Form from './components/Form';
 import FilterButton from './components/FilterButton';
 
 import './App.css';
+import { usePrevious } from './usePrevious';
 
 const FILTER_MAP = {
   All: () => true,
@@ -18,6 +19,7 @@ const FILTER_NAMES = Object.keys(FILTER_MAP);
 function App(props) {
   const [filter, setFilter] = useState('All')
   const [tasks, setTasks] = useState(props.tasks)
+  const listHeadingRef = useRef(null);
 
   const filterList = FILTER_NAMES.map(f => (
     <FilterButton
@@ -77,6 +79,15 @@ function App(props) {
     setTasks(remainingTasks)
   }
 
+  const prevTaskLength = usePrevious(tasks.length);
+
+  useEffect(() => {
+    if (tasks.length - prevTaskLength === -1) {
+      listHeadingRef.current.focus();
+    }
+  }, [tasks.length, prevTaskLength]);
+
+
   return (
     <div className="container">
       <h1 className='text-center mt-4 mb-4'>ToDO</h1>
@@ -87,7 +98,12 @@ function App(props) {
         {filterList}
       </div>
 
-      <h2 id="list-heading" className='mt-4'>
+      <h2
+        id="list-heading"
+        className='mt-4'
+        tabIndex='-1'
+        ref={listHeadingRef}
+      >
         {`${countTasks} ${countPlural} remaining`}
       </h2>
 

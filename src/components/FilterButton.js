@@ -7,7 +7,7 @@ export default function (props) {
         className={`nav-link ${props.active ? 'active' : ''}`}
         onClick={() => props.setFilter(props.filter)}
       >
-        {props.filter} tasks
+        {props.filter}
       </button>
     </li >
   )

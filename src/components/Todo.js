@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { PencilFill, TrashFill, XLg, CheckLg } from "react-bootstrap-icons";
+import { usePrevious } from "../usePrevious";
 
 export default function Todo(props) {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(props.name);
+  const editFieldRef = useRef(null);
+  const editButtonRef = useRef(null);
+  const wasEditing = usePrevious(isEditing);
 
   function handlerChange(e) {
     setName(e.target.value);
@@ -36,6 +40,7 @@ export default function Todo(props) {
           type="button"
           className='btn btn-sm btn-outline-warning me-1'
           onClick={() => setIsEditing(true)}
+          ref={editButtonRef}
         >
           <PencilFill />
         </button>
@@ -59,6 +64,7 @@ export default function Todo(props) {
           className='form-control form-control-sm'
           value={name}
           onChange={handlerChange}
+          ref={editFieldRef}
         />
       </div>
       <div>
@@ -75,6 +81,15 @@ export default function Todo(props) {
       </div>
     </form>
   )
+
+  useEffect(() => {
+    if (!wasEditing && isEditing) {
+      editFieldRef.current.focus();
+    }
+    if (wasEditing && !isEditing) {
+      editButtonRef.current.focus();
+    }
+  }, [wasEditing, isEditing]);
 
   return isEditing ? templateToEdit : templateToShow;
 }
